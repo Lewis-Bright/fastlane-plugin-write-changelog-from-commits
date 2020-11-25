@@ -4,9 +4,12 @@ require_relative '../helper/write_changelog_from_commits_helper'
 module Fastlane
   module Actions
     class WriteChangelogFromCommitsAction < Action
-      OTHER_SECTION = "Other"
 
       def self.run(params)
+        if params[:additional_section_name].nil? && params[:commit_prefixes].nil?
+          raise "Please provide either 'additional_section_name' or 'commit_prefixes' to action"
+        end
+
         from = Actions.last_git_tag_name
         UI.verbose("Found the last Git tag: #{from}")
         to = 'HEAD'
@@ -23,7 +26,7 @@ module Fastlane
           changelog = changelog.gsub("\n\n", "\n") if changelog # as there are duplicate newlines
           raise "No logs found since last tag" if changelog.strip.empty?
 
-          raw_release_notes = create_raw_release_notes(changelog, params[:commit_prefixes])
+          raw_release_notes = create_raw_release_notes(changelog, params[:commit_prefixes], params[:additional_section_name])
 
           release_notes = create_release_notes(raw_release_notes)
           Actions.lane_context[SharedValues::FL_CHANGELOG] = release_notes
@@ -40,19 +43,21 @@ module Fastlane
         end
       end
 
-      def self.create_raw_release_notes(changelog, commit_prefixes)
+      def self.create_raw_release_notes(changelog, commit_prefixes, additional_section_name)
         raw_release_notes = commit_prefixes.to_h { |p| [p.capitalize, []] }
-        raw_release_notes[OTHER_SECTION] = []
+        raw_release_notes[additional_section_name.capitalize] = [] if additional_section_name
         changelog.each_line do |line|
           section_exists = false
           commit_prefixes.each do |prefix|
             next unless line.downcase.start_with?(prefix.downcase)
 
-            raw_release_notes[prefix.capitalize] << line.slice(prefix.length..line.length).strip
+            raw_release_notes[prefix.capitalize] << line.slice(prefix.length..line.length).strip.capitalize
             section_exists = true
             break
           end
-          raw_release_notes[OTHER_SECTION] << line.strip unless section_exists
+          if additional_section_name && !section_exists
+            raw_release_notes[additional_section_name.capitalize] << line.strip.capitalize
+          end
         end
         raw_release_notes
       end
@@ -95,14 +100,14 @@ module Fastlane
         [
           FastlaneCore::ConfigItem.new(
             key: :path,
-            env_name: 'write_changelog_from_commits_PATH',
+            env_name: 'WRITE_CHANGELOG_FROM_COMMITS_PATH',
             description: 'Path of the git repository',
             optional: true,
             default_value: './'
           ),
           FastlaneCore::ConfigItem.new(
             key: :quiet,
-            env_name: 'write_changelog_from_commits_TAG_QUIET',
+            env_name: 'WRITE_CHANGELOG_FROM_COMMITS_TAG_QUIET',
             description: 'Whether or not to disable changelog output',
             optional: true,
             default_value: false,
@@ -110,20 +115,26 @@ module Fastlane
           ),
           FastlaneCore::ConfigItem.new(
             key: :changelog_dir,
-            env_name: 'write_changelog_from_commits_CHANGELOG_DIR',
+            env_name: 'WRITE_CHANGELOG_FROM_COMMITS_CHANGELOG_DIR',
             description: 'Path to write new changelogs',
             optional: false
           ),
           FastlaneCore::ConfigItem.new(
             key: :commit_prefixes,
-            env_name: "write_changelog_from_commits_PREFIXES",
-            description: "List of prefixes to group in the changelog",
+            env_name: "WRITE_CHANGELOG_FROM_COMMITS_PREFIXES",
+            description: "List of prefixes to group in the changelog (omit to place all lines under additional_section_name)",
             type: Array,
             optional: true
           ),
           FastlaneCore::ConfigItem.new(
+            key: :additional_section_name,
+            env_name: "WRITE_CHANGELOG_FROM_COMMITS_ADDITIONAL_SECTION",
+            description: "Section to contain all other commit lines (omit if you only want to log lines beginning with prefixes)",
+            optional: true
+          ),
+          FastlaneCore::ConfigItem.new(
             key: :version_code,
-            env_name: "write_changelog_from_commits_VERSION_CODE",
+            env_name: "WRITE_CHANGELOG_FROM_COMMITS_VERSION_CODE",
             description: "Version code used to create file",
             optional: true
           )

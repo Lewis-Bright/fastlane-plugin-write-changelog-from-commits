@@ -1,9 +1,9 @@
 require 'fastlane/action'
-require_relative '../helper/generate_changelog_from_commits_helper'
+require_relative '../helper/write_changelog_from_commits_helper'
 
 module Fastlane
   module Actions
-    class GenerateChangelogFromCommitsAction < Action
+    class WriteChangelogFromCommitsAction < Action
       OTHER_SECTION = "Other"
 
       def self.run(params)
@@ -75,7 +75,7 @@ module Fastlane
       end
 
       def self.description
-        "Generates a changelog file by pattern matching on git commits since the last tag."
+        "Writes a changelog file by pattern matching on git commits since the last tag."
       end
 
       def self.authors
@@ -95,14 +95,14 @@ module Fastlane
         [
           FastlaneCore::ConfigItem.new(
             key: :path,
-            env_name: 'GENERATE_CHANGELOG_FROM_COMMITS_PATH',
+            env_name: 'write_changelog_from_commits_PATH',
             description: 'Path of the git repository',
             optional: true,
             default_value: './'
           ),
           FastlaneCore::ConfigItem.new(
             key: :quiet,
-            env_name: 'GENERATE_CHANGELOG_FROM_COMMITS_TAG_QUIET',
+            env_name: 'write_changelog_from_commits_TAG_QUIET',
             description: 'Whether or not to disable changelog output',
             optional: true,
             default_value: false,
@@ -110,20 +110,20 @@ module Fastlane
           ),
           FastlaneCore::ConfigItem.new(
             key: :changelog_dir,
-            env_name: 'GENERATE_CHANGELOG_FROM_COMMITS_CHANGELOG_DIR',
+            env_name: 'write_changelog_from_commits_CHANGELOG_DIR',
             description: 'Path to write new changelogs',
             optional: false
           ),
           FastlaneCore::ConfigItem.new(
             key: :commit_prefixes,
-            env_name: "GENERATE_CHANGELOG_FROM_COMMITS_PREFIXES",
+            env_name: "write_changelog_from_commits_PREFIXES",
             description: "List of prefixes to group in the changelog",
             type: Array,
             optional: true
           ),
           FastlaneCore::ConfigItem.new(
             key: :version_code,
-            env_name: "GENERATE_CHANGELOG_FROM_COMMITS_VERSION_CODE",
+            env_name: "write_changelog_from_commits_VERSION_CODE",
             description: "Version code used to create file",
             optional: true
           )

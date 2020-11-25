@@ -2,16 +2,16 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'fastlane/plugin/generate_changelog_from_commits/version'
+require 'fastlane/plugin/write_changelog_from_commits/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'fastlane-plugin-generate_changelog_from_commits'
-  spec.version       = Fastlane::GenerateChangelogFromCommits::VERSION
+  spec.name          = 'fastlane-plugin-write_changelog_from_commits'
+  spec.version       = Fastlane::WriteChangelogFromCommits::VERSION
   spec.author        = 'Lewis Bright'
   spec.email         = 'lewis_bright@yahoo.com'
 
-  spec.summary       = 'Generates a changelog by pattern matching on git commits since the last tag. Organises these into sections and creates a changelog with the same name as the current version code'
-  # spec.homepage      = "https://github.com/<GITHUB_USERNAME>/fastlane-plugin-generate_changelog_from_commits"
+  spec.summary       = 'Writes a changelog by pattern matching on git commits since the last tag. Organises these into sections and creates a changelog with the same name as the current version code'
+  spec.homepage      = "https://github.com/Lewis-Bright/fastlane-plugin-write-changelog-from-commits"
   spec.license       = "MIT"
 
   spec.files         = Dir["lib/**/*"] + %w(README.md LICENSE)

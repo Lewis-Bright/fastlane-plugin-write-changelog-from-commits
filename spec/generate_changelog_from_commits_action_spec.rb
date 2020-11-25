@@ -1,6 +1,6 @@
 require 'fastlane/action'
 
-describe Fastlane::Actions::GenerateChangelogFromCommitsAction do
+describe Fastlane::Actions::WriteChangelogFromCommitsAction do
   describe '#run' do
     subject { described_class.run(path: "./", quiet: "true", commit_prefixes: ["fixed","added"], changelog_dir: "test_dir", version_code: "101") }
 

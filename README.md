@@ -1,18 +1,18 @@
-# generate_changelog_from_commits plugin
+# write_changelog_from_commits plugin
 
-[![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-generate_changelog_from_commits)
+[![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-write_changelog_from_commits)
 
 ## Getting Started
 
-This project is a [_fastlane_](https://github.com/fastlane/fastlane) plugin. To get started with `fastlane-plugin-generate_changelog_from_commits`, add it to your project by running:
+This project is a [_fastlane_](https://github.com/fastlane/fastlane) plugin. To get started with `fastlane-plugin-write_changelog_from_commits`, add it to your project by running:
 
 ```bash
-fastlane add_plugin generate_changelog_from_commits
+fastlane add_plugin write_changelog_from_commits
 ```
 
-## About generate_changelog_from_commits
+## About write_changelog_from_commits
 
-Generates a changelog by pattern matching on git commits since the last tag. Organises these into sections and creates a changelog with the same name as the current version code
+Writes a changelog by pattern matching on git commits since the last tag. Organises these into sections and creates a changelog with the same name as the current version code
 
 **Note to author:** Add a more detailed description about this plugin here. If your plugin contains multiple actions, make sure to mention them here.
 

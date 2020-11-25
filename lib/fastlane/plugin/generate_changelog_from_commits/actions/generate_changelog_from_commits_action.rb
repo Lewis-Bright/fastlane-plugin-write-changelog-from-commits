@@ -61,7 +61,7 @@ module Fastlane
         release_notes = ""
         raw_release_notes.keys.each do |section_title|
           next if raw_release_notes[section_title].empty?
-          release_notes << "#{section_title}\n"
+          release_notes << "<u>#{section_title}</u>\n"
           release_notes << "#{raw_release_notes[section_title].join("\n")}\n\n"
         end
         release_notes
@@ -119,6 +119,12 @@ module Fastlane
             env_name: "GENERATE_CHANGELOG_FROM_COMMITS_PREFIXES",
             description: "List of prefixes to group in the changelog",
             type: Array,
+            optional: true
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :version_code,
+            env_name: "GENERATE_CHANGELOG_FROM_COMMITS_VERSION_CODE",
+            description: "Version code used to create file",
             optional: true
           )
         ]

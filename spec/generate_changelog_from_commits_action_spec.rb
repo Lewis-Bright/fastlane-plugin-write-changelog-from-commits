@@ -23,16 +23,16 @@ describe Fastlane::Actions::GenerateChangelogFromCommitsAction do
 
       let(:expected_release_notes) {
         <<~MSG
-          Fixed
+          <u>Fixed</u>
           random bug
           other bug
           final bug
 
-          Added
+          <u>Added</u>
           new feature
           second feature
 
-          Other
+          <u>Other</u>
           Do other thing
 
         MSG
@@ -62,12 +62,12 @@ describe Fastlane::Actions::GenerateChangelogFromCommitsAction do
 
       let(:expected_release_notes) {
         <<~MSG
-          Fixed
+          <u>Fixed</u>
           random bug
           other bug
           final bug
 
-          Other
+          <u>Other</u>
           Do other thing
 
         MSG

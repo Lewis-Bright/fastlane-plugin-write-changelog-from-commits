@@ -35,7 +35,7 @@ module Fastlane
           end
 
           if params[:version_code]
-            write_release_notes(release_notes, params[:version_code], params[:changelog_dir])
+            write_release_notes(release_notes, params[:version_code], params[:changelog_dir]) unless params[:read_only]
           else
             UI.message("No version code provided, so could not write file")
           end
@@ -137,6 +137,14 @@ module Fastlane
             env_name: "WRITE_CHANGELOG_FROM_COMMITS_VERSION_CODE",
             description: "Version code used to create file",
             optional: true
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :read_only,
+            env_name: "WRITE_CHANGELOG_FROM_COMMITS_READ_ONLY",
+            description: "If true will simply return the changelog rather than writing it",
+            optional: true,
+            default_value: false,
+            is_string: false
           )
         ]
       end

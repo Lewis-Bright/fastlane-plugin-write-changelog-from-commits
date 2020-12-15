@@ -177,5 +177,54 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
         expect(subject).to eq(expected_release_notes)
       end
     end
+
+    context "when read_only is true" do
+      subject {
+        described_class.run(
+          path: "./",
+          quiet: "true",
+          commit_prefixes: ["fixed","added"],
+          additional_section_name: "other",
+          changelog_dir: "test_dir",
+          version_code: "101",
+          read_only: "true"
+        )
+      }
+
+      let(:log_messages) {
+        <<~MSG
+        Fixed random bug
+        fixed other bug
+        Added new feature
+        Fixed final bug
+        added second feature
+        Do other thing
+      MSG
+    }
+
+    let(:expected_release_notes) {
+      <<~MSG
+        <u>Fixed</u>
+        Random bug
+        Other bug
+        Final bug
+
+        <u>Added</u>
+        New feature
+        Second feature
+
+        <u>Other</u>
+        Do other thing
+
+      MSG
+    }
+
+      it "does not write contents to file" do
+        file = instance_double(File)
+        expect(File).not_to receive(:open).with("test_dir/101.txt", "w")
+        
+        expect(subject).to eq(expected_release_notes)
+      end
+    end
   end
 end

@@ -1,10 +1,9 @@
-require 'fastlane/action'
-require_relative '../helper/write_changelog_from_commits_helper'
+require "fastlane/action"
+require_relative "../helper/write_changelog_from_commits_helper"
 
 module Fastlane
   module Actions
     class WriteChangelogFromCommitsAction < Action
-
       def self.run(params)
         if params[:additional_section_name].nil? && params[:commit_prefixes].nil?
           raise "Please provide either 'additional_section_name' or 'commit_prefixes' to action"
@@ -12,14 +11,15 @@ module Fastlane
 
         from = Actions.last_git_tag_name
         UI.verbose("Found the last Git tag: #{from}")
-        to = 'HEAD'
+        to = "HEAD"
 
         if params[:path].nil?
           UI.message("No path provided, using default at '/'")
-          params[:path] = './' unless params[:path]
+          params[:path] = "./" unless params[:path]
         end
 
-        params[:commit_prefixes] ||= []
+        params[:commit_prefixes] ||= ""
+        params[:commit_prefixes] = params[:commit_prefixes].gsub(/\s+/, "").split(",")
 
         Dir.chdir(params[:path]) do
           changelog = Actions.git_log_between("%B", from, to, nil, nil, nil)
@@ -100,43 +100,43 @@ module Fastlane
         [
           FastlaneCore::ConfigItem.new(
             key: :path,
-            env_name: 'WRITE_CHANGELOG_FROM_COMMITS_PATH',
-            description: 'Path of the git repository',
+            env_name: "WRITE_CHANGELOG_FROM_COMMITS_PATH",
+            description: "Path of the git repository",
             optional: true,
-            default_value: './'
+            default_value: "./",
           ),
           FastlaneCore::ConfigItem.new(
             key: :quiet,
-            env_name: 'WRITE_CHANGELOG_FROM_COMMITS_TAG_QUIET',
-            description: 'Whether or not to disable changelog output',
+            env_name: "WRITE_CHANGELOG_FROM_COMMITS_TAG_QUIET",
+            description: "Whether or not to disable changelog output",
             optional: true,
             default_value: false,
-            is_string: false
+            is_string: false,
           ),
           FastlaneCore::ConfigItem.new(
             key: :changelog_dir,
-            env_name: 'WRITE_CHANGELOG_FROM_COMMITS_CHANGELOG_DIR',
-            description: 'Path to write new changelogs',
-            optional: false
+            env_name: "WRITE_CHANGELOG_FROM_COMMITS_CHANGELOG_DIR",
+            description: "Path to write new changelogs",
+            optional: false,
           ),
           FastlaneCore::ConfigItem.new(
             key: :commit_prefixes,
             env_name: "WRITE_CHANGELOG_FROM_COMMITS_PREFIXES",
-            description: "List of prefixes to group in the changelog (omit to place all lines under additional_section_name)",
+            description: "Comma separated list of prefixes to group in the changelog (omit to place all lines under additional_section_name)",
             type: Array,
-            optional: true
+            optional: true,
           ),
           FastlaneCore::ConfigItem.new(
             key: :additional_section_name,
             env_name: "WRITE_CHANGELOG_FROM_COMMITS_ADDITIONAL_SECTION",
             description: "Section to contain all other commit lines (omit if you only want to log lines beginning with prefixes)",
-            optional: true
+            optional: true,
           ),
           FastlaneCore::ConfigItem.new(
             key: :version_code,
             env_name: "WRITE_CHANGELOG_FROM_COMMITS_VERSION_CODE",
             description: "Version code used to create file",
-            optional: true
+            optional: true,
           ),
           FastlaneCore::ConfigItem.new(
             key: :read_only,
@@ -144,8 +144,8 @@ module Fastlane
             description: "If true will simply return the changelog rather than writing it",
             optional: true,
             default_value: false,
-            is_string: false
-          )
+            is_string: false,
+          ),
         ]
       end
 

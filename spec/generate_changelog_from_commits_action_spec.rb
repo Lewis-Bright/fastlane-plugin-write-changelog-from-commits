@@ -1,4 +1,4 @@
-require 'fastlane/action'
+require "fastlane/action"
 
 describe Fastlane::Actions::WriteChangelogFromCommitsAction do
   describe "#run" do
@@ -12,16 +12,16 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
         described_class.run(
           path: "./",
           quiet: "true",
-          commit_prefixes: ["fixed","added"],
+          commit_prefixes: "fixed, added",
           additional_section_name: "other",
           changelog_dir: "test_dir",
-          version_code: "101"
+          version_code: "101",
         )
       }
 
       context "when all sections present in logs" do
         let(:log_messages) {
-            <<~MSG
+          <<~MSG
             Fixed random bug
             fixed other bug
             Added new feature
@@ -92,19 +92,19 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
         let(:log_messages) { "" }
 
         it "raises an error" do
-          expect{subject}.to raise_error("No logs found since last tag")
+          expect { subject }.to raise_error("No logs found since last tag")
         end
       end
     end
-    
+
     context "when passing only commit_prefixes" do
       subject {
         described_class.run(
           path: "./",
           quiet: "true",
-          commit_prefixes: ["fixed","added"],
+          commit_prefixes: "fixed, added",
           changelog_dir: "test_dir",
-          version_code: "101"
+          version_code: "101",
         )
       }
 
@@ -145,7 +145,7 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
           quiet: "true",
           additional_section_name: "other",
           changelog_dir: "test_dir",
-          version_code: "101"
+          version_code: "101",
         )
       }
 
@@ -183,46 +183,46 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
         described_class.run(
           path: "./",
           quiet: "true",
-          commit_prefixes: ["fixed","added"],
+          commit_prefixes: "fixed, added",
           additional_section_name: "other",
           changelog_dir: "test_dir",
           version_code: "101",
-          read_only: "true"
+          read_only: "true",
         )
       }
 
       let(:log_messages) {
         <<~MSG
-        Fixed random bug
-        fixed other bug
-        Added new feature
-        Fixed final bug
-        added second feature
-        Do other thing
-      MSG
-    }
+          Fixed random bug
+          fixed other bug
+          Added new feature
+          Fixed final bug
+          added second feature
+          Do other thing
+        MSG
+      }
 
-    let(:expected_release_notes) {
-      <<~MSG
-        <u>Fixed</u>
-        Random bug
-        Other bug
-        Final bug
+      let(:expected_release_notes) {
+        <<~MSG
+          <u>Fixed</u>
+          Random bug
+          Other bug
+          Final bug
 
-        <u>Added</u>
-        New feature
-        Second feature
+          <u>Added</u>
+          New feature
+          Second feature
 
-        <u>Other</u>
-        Do other thing
+          <u>Other</u>
+          Do other thing
 
-      MSG
-    }
+        MSG
+      }
 
       it "does not write contents to file" do
         file = instance_double(File)
         expect(File).not_to receive(:open).with("test_dir/101.txt", "w")
-        
+
         expect(subject).to eq(expected_release_notes)
       end
     end

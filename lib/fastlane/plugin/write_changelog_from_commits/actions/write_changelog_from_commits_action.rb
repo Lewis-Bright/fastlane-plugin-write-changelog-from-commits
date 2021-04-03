@@ -123,7 +123,6 @@ module Fastlane
             key: :commit_prefixes,
             env_name: "WRITE_CHANGELOG_FROM_COMMITS_PREFIXES",
             description: "Comma separated list of prefixes to group in the changelog (omit to place all lines under additional_section_name)",
-            type: Array,
             optional: true,
           ),
           FastlaneCore::ConfigItem.new(

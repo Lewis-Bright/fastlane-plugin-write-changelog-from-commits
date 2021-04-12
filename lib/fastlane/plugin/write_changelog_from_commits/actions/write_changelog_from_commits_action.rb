@@ -18,8 +18,7 @@ module Fastlane
           params[:path] = "./" unless params[:path]
         end
 
-        params[:commit_prefixes] ||= ""
-        params[:commit_prefixes] = params[:commit_prefixes].gsub(/\s+/, "").split(",")
+        params[:commit_prefixes] ||= []
 
         Dir.chdir(params[:path]) do
           changelog = Actions.git_log_between("%B", from, to, nil, nil, nil)
@@ -122,7 +121,8 @@ module Fastlane
           FastlaneCore::ConfigItem.new(
             key: :commit_prefixes,
             env_name: "WRITE_CHANGELOG_FROM_COMMITS_PREFIXES",
-            description: "Comma separated list of prefixes to group in the changelog (omit to place all lines under additional_section_name)",
+            description: "List of prefixes to group in the changelog (omit to place all lines under additional_section_name)",
+            type: Array,
             optional: true,
           ),
           FastlaneCore::ConfigItem.new(

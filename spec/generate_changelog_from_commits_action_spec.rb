@@ -12,7 +12,7 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
         described_class.run(
           path: "./",
           quiet: "true",
-          commit_prefixes: "fixed, added",
+          commit_prefixes: %w[fixed added],
           additional_section_name: "other",
           changelog_dir: "test_dir",
           version_code: "101",
@@ -102,7 +102,7 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
         described_class.run(
           path: "./",
           quiet: "true",
-          commit_prefixes: "fixed, added",
+          commit_prefixes: %w[fixed added],
           changelog_dir: "test_dir",
           version_code: "101",
         )
@@ -183,7 +183,7 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
         described_class.run(
           path: "./",
           quiet: "true",
-          commit_prefixes: "fixed, added",
+          commit_prefixes: %w[fixed added],
           additional_section_name: "other",
           changelog_dir: "test_dir",
           version_code: "101",

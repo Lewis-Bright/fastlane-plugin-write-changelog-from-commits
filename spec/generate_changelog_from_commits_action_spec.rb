@@ -33,17 +33,17 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
 
         let(:expected_release_notes) {
           <<~MSG
-            <u>Fixed</u>
-            Random bug
-            Other bug
-            Final bug
+            Fixed:
+            •Random bug
+            •Other bug
+            •Final bug
 
-            <u>Added</u>
-            New feature
-            Second feature
+            Added:
+            •New feature
+            •Second feature
 
-            <u>Other</u>
-            Do other thing
+            Other:
+            •Do other thing
 
           MSG
         }
@@ -72,13 +72,13 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
 
         let(:expected_release_notes) {
           <<~MSG
-            <u>Fixed</u>
-            Random bug
-            Other bug
-            Final bug
+            Fixed:
+            •Random bug
+            •Other bug
+            •Final bug
 
-            <u>Other</u>
-            Do other thing
+            Other:
+            •Do other thing
 
           MSG
         }
@@ -121,14 +121,14 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
 
       let(:expected_release_notes) {
         <<~MSG
-          <u>Fixed</u>
-          Random bug
-          Other bug
-          Final bug
+          Fixed:
+          •Random bug
+          •Other bug
+          •Final bug
 
-          <u>Added</u>
-          New feature
-          Second feature
+          Added:
+          •New feature
+          •Second feature
 
         MSG
       }
@@ -162,13 +162,13 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
 
       let(:expected_release_notes) {
         <<~MSG
-          <u>Other</u>
-          Fixed random bug
-          Fixed other bug
-          Added new feature
-          Fixed final bug
-          Added second feature
-          Do other thing
+          Other:
+          •Fixed random bug
+          •Fixed other bug
+          •Added new feature
+          •Fixed final bug
+          •Added second feature
+          •Do other thing
 
         MSG
       }
@@ -204,17 +204,17 @@ describe Fastlane::Actions::WriteChangelogFromCommitsAction do
 
       let(:expected_release_notes) {
         <<~MSG
-          <u>Fixed</u>
-          Random bug
-          Other bug
-          Final bug
+          Fixed:
+          •Random bug
+          •Other bug
+          •Final bug
 
-          <u>Added</u>
-          New feature
-          Second feature
+          Added:
+          •New feature
+          •Second feature
 
-          <u>Other</u>
-          Do other thing
+          Other:
+          •Do other thing
 
         MSG
       }

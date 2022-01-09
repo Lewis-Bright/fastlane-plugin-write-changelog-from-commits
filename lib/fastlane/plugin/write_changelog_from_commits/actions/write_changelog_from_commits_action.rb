@@ -65,8 +65,10 @@ module Fastlane
         release_notes = ""
         raw_release_notes.keys.each do |section_title|
           next if raw_release_notes[section_title].empty?
-          release_notes << "<u>#{section_title}</u>\n"
-          release_notes << "#{raw_release_notes[section_title].join("\n")}\n\n"
+
+          release_notes << "#{section_title}:\n"
+          checklist = raw_release_notes[section_title].map {|li| "•#{li}"}.join("\n")
+          release_notes << "#{checklist}\n\n"
         end
         release_notes
       end
